@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://portfolio.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.30
+Version: 1.40
 Author: Arnaud Lejosne
 Author URI: http://portfolio.lochrider.com
 */
@@ -60,9 +60,8 @@ function linkedinresume_get_CV($options) {
 	$page = curl_exec($ch);
 	curl_close($ch);
 	
-	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">([^<]*)</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="([^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*<p class="description">(([^<]|<br>)*)</p>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
-		
-	
+	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(<a href="[^"]*" >)?([^<]*)(</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="([^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*<p class="description">(([^<]|<br>)*)</p>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+
 	$infosPerso = array();
 	$jobsArray = array();
 
@@ -70,14 +69,14 @@ function linkedinresume_get_CV($options) {
 	{
 		$tmpArray = array();
 		$tmpArray['poste'] = trim($result[1][$i]);
-		$tmpArray['entreprise'] = trim($result[2][$i]);
-		$tmpArray['type_entreprise'] = trim($result[3][$i]);
-		$tmpArray['date_debut'] = trim($result[4][$i]);
-		$tmpArray['date_debut_simp'] = trim($result[5][$i]);
-		$tmpArray['date_fin'] = trim($result[7][$i]);
-		$tmpArray['date_fin_simp'] = trim($result[8][$i]);
-		$tmpArray['duree'] = trim($result[10][$i]);
-		$tmpArray['description'] = trim($result[11][$i]);
+		$tmpArray['entreprise'] = trim($result[3][$i]);
+		$tmpArray['type_entreprise'] = trim($result[5][$i]);
+		$tmpArray['date_debut'] = trim($result[6][$i]);
+		$tmpArray['date_debut_simp'] = trim($result[7][$i]);
+		$tmpArray['date_fin'] = trim($result[9][$i]);
+		$tmpArray['date_fin_simp'] = trim($result[10][$i]);
+		$tmpArray['duree'] = trim($result[12][$i]);
+		$tmpArray['description'] = trim($result[13][$i]);
 		$jobsArray[$i] = $tmpArray;
 	}
 	$infosPerso['jobs'] = $jobsArray;
