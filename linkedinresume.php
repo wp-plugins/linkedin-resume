@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.40
+Version: 1.50
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -30,7 +30,8 @@ Author URI: http://creations.lochrider.com
 
 define('LINKEDINRESUMEPATH',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
 define('Version',"1.1");
-
+$plugin_dir = basename(dirname(__FILE__));
+load_plugin_textdomain( 'linkedinresume', 'wp-content/plugins/'.$plugin_dir.'/lang', $plugin_dir.'/lang' ); 
 $adminOptionsName = "linedinRedumeAdminOption";
 add_shortcode('linkedinresume', 'linkedinresume_active_shortcode');
 function linkedinresume_active_shortcode($atts) {
@@ -52,7 +53,13 @@ function linkedinresume_getAdminOptions() {
 ### Function: WordPress Get CV
 function linkedinresume_get_CV($options) {
 	$devOptions = linkedinresume_getAdminOptions();
-	$ch = curl_init("http://www.linkedin.com/in/".$devOptions['linkedinId'].'/'.(isset($options['lang'])?$options['lang']:''));
+	
+	if (!isset($options['lang']) && preg_match('/([a-z]{2})_([A-Z]{2})/', get_locale(), $regs)) {
+		$language = $regs[1];
+	} else {
+		$language = $options['lang'];
+	}
+	$ch = curl_init("http://www.linkedin.com/in/".$devOptions['linkedinId'].'/'.$language);
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 	$useragent="Mozilla/5.0 (Windows; U; Windows NT 5.1; en-UK; rv:1.8.1.1) Gecko/20061204 Firefox/3.5";
@@ -150,13 +157,13 @@ function linkedinresume_display_CV($atts) {
 			if(!empty($myCV['summary']))
 			{
 				echo '
-				<h3>Summary : </h3>
+				<h3>'.__('Summary : ','linkedinresume').'</h3>
 				<p>'.$myCV['summary'].'</p>';
 			}
 			if(!empty($myCV['skills']))
 			{
 				echo '
-				<h3>Specialties : </h3>
+				<h3>'.__('Specialties : ','linkedinresume').'</h3>
 				<p>'.$myCV['skills'].'</p>';
 			}
 
@@ -166,7 +173,7 @@ function linkedinresume_display_CV($atts) {
 		{
 			echo '
 			<div class="cvPart">
-			<h2>Jobs</h2>';
+			<h2>'.__('Jobs','linkedinresume').'</h2>';
 			foreach($myCV['jobs'] as $job)
 			{
 				echo '
@@ -181,7 +188,7 @@ function linkedinresume_display_CV($atts) {
 		if(!empty($myCV['education'][0]))
 		{
 			echo '<div class="cvPart">
-			<h2>Education</h2>';
+			<h2>'.__('Education','linkedinresume').'</h2>';
 			foreach($myCV['education'] as $educ)
 			{
 				echo '<h3>'.$educ['ecole'].'</h3>';
@@ -196,13 +203,13 @@ function linkedinresume_display_CV($atts) {
 		if(!empty($myCV['sites']))
 		{
 			echo '<div class="cvPart">
-				<h2>WebSites</h2>
+				<h2>'.__('WebSites','linkedinresume').'</h2>
 				'.$myCV['sites'].'
 			</div>';
 		}
 	echo '
-	<p>Copyright 2009 LinkedIn Corporation. All rights reserved.</p>
-	<!-- All right reserved Arnaud Lejosne -->
+	<p>Copyright 2009 LinkedIn Corporation. '.__('All rights reserved','linkedinresume').'</p>
+	<!-- '.__('All rights reserved','linkedinresume').' Arnaud Lejosne -->
 	';
 }
 
@@ -220,7 +227,7 @@ function linkedinresume_printAdminPage() {
 	$devOptions = linkedinresume_getAdminOptions();
 	?>
 	<div class="wrap">
-		<h2>WordPress LinkedinResume Plugin Option</h2>
+		<h2><?php __e('WordPress LinkedinResume Plugin Option','linkedinresume') ?></h2>
 		<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 			<h4>Url linkedin</h4>
 			http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'LinkedinResume') ?>"/>

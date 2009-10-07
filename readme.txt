@@ -17,8 +17,8 @@ Display your CV (also called Resume or Curriculum vitae) on your blog from your 
 1. Download It
 2. Install it
 3. Add [linkedinresume] on the page where you want your cv to appear
-Note : you can add the attribute "lang" if you have a multilanguage profile to choose which language you want to display
-per example : [linkedinresume lang="fr"] will display the french version of your resume
+Note : by default, the language will be your wordpress language but you can specify one by adding the attribute "lang" if you have a multilanguage profile to choose which language you want to display.
+Per example : [linkedinresume lang="fr"] will display the french version of your resume
 4. Change the url on the setting page to your linkedin public page url
 5. Enjoy ;)
 
@@ -40,6 +40,9 @@ AddHandler x-mapp-php5 .php
 2. A preview of the admin page
 
 == Changelog ==
+
+= 1.5 =
+* Implementation of the Wordpress translation files for english, portugese and french.
 
 = 1.4 =
 * Implementation of the multilanguage system

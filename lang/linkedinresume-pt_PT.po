@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Linkedin Resume\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-10-07 23:29-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Arnaud Lejosne <contact@arnaudlejosne.com>\n"
+"Language-Team: Arnaud Lejosne <contact@arnaudlejosne.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: linkedinresume.php:153
+msgid "Summary : "
+msgstr "Resumo : "
+
+#: linkedinresume.php:159
+msgid "Specialties : "
+msgstr "Especialidades : "
+
+#: linkedinresume.php:169
+msgid "Jobs"
+msgstr "Experiência profissional"
+
+#: linkedinresume.php:184
+msgid "Education"
+msgstr "Percurso académico"
+
+#: linkedinresume.php:199
+msgid "WebSites"
+msgstr "Páginas web"
+
+#: linkedinresume.php:204
+#: linkedinresume.php:205
+msgid "All rights reserved"
+msgstr "	Todos os direitos reservados"
+
