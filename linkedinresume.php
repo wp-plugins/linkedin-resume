@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: LinkedIn Resume
-Plugin URI: http://portfolio.lochrider.com
+Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
 Version: 1.40
 Author: Arnaud Lejosne
-Author URI: http://portfolio.lochrider.com
+Author URI: http://creations.lochrider.com
 */
 
 

@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: Arnaud Lejosne
-Donate link: http://portfolio.lochrider.com
+Donate link: http://creations.lochrider.com
 Tags: linkedIn, resume, CV, curriculum, vitae
 Requires at least: 2.0
 Tested up to: 2.8
