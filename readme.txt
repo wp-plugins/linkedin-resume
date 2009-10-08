@@ -41,6 +41,9 @@ AddHandler x-mapp-php5 .php
 
 == Changelog ==
 
+= 1.6 =
+* __e bugfix
+
 = 1.5 =
 * Implementation of the Wordpress translation files for english, portugese and french.
 

@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.50
+Version: 1.60
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -227,7 +227,7 @@ function linkedinresume_printAdminPage() {
 	$devOptions = linkedinresume_getAdminOptions();
 	?>
 	<div class="wrap">
-		<h2><?php __e('WordPress LinkedinResume Plugin Option','linkedinresume') ?></h2>
+		<h2><?php echo __('WordPress LinkedinResume Plugin Option','linkedinresume'); ?></h2>
 		<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 			<h4>Url linkedin</h4>
 			http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'LinkedinResume') ?>"/>
