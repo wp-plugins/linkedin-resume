@@ -230,7 +230,7 @@ function linkedinresume_printAdminPage() {
 		<h2><?php _e('WordPress LinkedinResume Plugin Option','linkedinresume') ?></h2>
 		<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 			<h4>Url linkedin</h4>
-			http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'LinkedinResume') ?>"/>
+			http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'linkedinresume') ?>"/>
 		<div><input type="submit" name="update_linkedinresumeSettings" value="<?php _e('Update Settings', 'linkedinresume') ?>" /></div>
 		</form>
 		
