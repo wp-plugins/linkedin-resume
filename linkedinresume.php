@@ -67,7 +67,7 @@ function linkedinresume_get_CV($options) {
 	$page = curl_exec($ch);
 	curl_close($ch);
 	
-	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(<a href="[^"]*" >)?([^<]*)(</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="([^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*<p class="description">(([^<]|<br>)*)</p>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(<a href="[^"]*" >)?([^<]*)(</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="([^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*(<p class="description">(([^<]|<br>)*)</p>[\r\n\t ]*)?</li>%m', $page, $result, PREG_PATTERN_ORDER);
 
 	$infosPerso = array();
 	$jobsArray = array();
@@ -83,7 +83,7 @@ function linkedinresume_get_CV($options) {
 		$tmpArray['date_fin'] = trim($result[9][$i]);
 		$tmpArray['date_fin_simp'] = trim($result[10][$i]);
 		$tmpArray['duree'] = trim($result[12][$i]);
-		$tmpArray['description'] = trim($result[13][$i]);
+		$tmpArray['description'] = trim($result[14][$i]);
 		$jobsArray[$i] = $tmpArray;
 	}
 	$infosPerso['jobs'] = $jobsArray;
@@ -106,7 +106,7 @@ function linkedinresume_get_CV($options) {
 	preg_match_all('%<p class="skills">(([^<]|<br>)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['skills'] = trim($result[1][0]);
 
-	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(<p class="notes">([^<]*)</p>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
 	
 	$educArray = array();
 	for($i = 0; $i<count($result[1]); $i++)
