@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.50
+Version: 1.70
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */

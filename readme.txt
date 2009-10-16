@@ -1,4 +1,4 @@
-=== Plugin Name ===
+﻿=== Plugin Name ===
 Contributors: Arnaud Lejosne
 Donate link: http://creations.lochrider.com
 Tags: linkedIn, resume, CV, curriculum, vitae
@@ -40,6 +40,9 @@ AddHandler x-mapp-php5 .php
 2. A preview of the admin page
 
 == Changelog ==
+
+= 1.7 =
+* Better regexps
 
 = 1.6 =
 * __e bugfix
