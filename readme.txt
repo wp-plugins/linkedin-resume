@@ -41,6 +41,9 @@ AddHandler x-mapp-php5 .php
 
 == Changelog ==
 
+= 1.8 =
+* Additional notes about schools added
+
 = 1.7 =
 * Better regexps
 

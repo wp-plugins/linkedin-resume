@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.70
+Version: 1.80
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -120,6 +120,7 @@ function linkedinresume_get_CV($options) {
 		$tmpArray['date_fin'] = trim($result[8][$i]);
 		$tmpArray['date_fin_simp'] = trim($result[9][$i]);
 		$tmpArray['commentaire'] = trim($result[10][$i]);
+		$tmpArray['notes'] = trim($result[12][$i]);
 		$educArray[$i] = $tmpArray;
 	}
 	$infosPerso['education'] = $educArray;
@@ -197,6 +198,9 @@ function linkedinresume_display_CV($atts) {
 					echo '<p>'.$educ['degree'].' '.$educ['course'].'</p>';
 				}
 				echo '<p>'.$educ['date_debut_simp'].' - '.$educ['date_fin_simp'].' '.$educ['commentaire'].'</p>';
+				if(!empty($educ['notes'])){
+					echo '<p>'.$educ['notes'].'</p>';
+				}
 			}
 			echo '</div>';
 		}
