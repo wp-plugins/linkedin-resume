@@ -16,28 +16,28 @@ msgstr ""
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: C:\\Users\\Pimpreneil\\Sites\\plugin wordpress\\linkedIn resume\\trunk\n"
 
-#: linkedinresume.php:153
+#: linkedinresume.php:172
 msgid "Summary : "
 msgstr "Summary : "
 
-#: linkedinresume.php:159
+#: linkedinresume.php:178
 msgid "Specialties : "
 msgstr "Specialties : "
 
-#: linkedinresume.php:169
-msgid "Jobs"
-msgstr "Jobs"
+#: linkedinresume.php:188
+msgid "Experience"
+msgstr "Experience"
 
-#: linkedinresume.php:184
+#: linkedinresume.php:203
 msgid "Education"
 msgstr "Education"
 
-#: linkedinresume.php:199
+#: linkedinresume.php:221
 msgid "WebSites"
 msgstr "WebSites"
 
-#: linkedinresume.php:204
-#: linkedinresume.php:205
+#: linkedinresume.php:229
+#: linkedinresume.php:230
 msgid "All rights reserved"
 msgstr "All rights reserved"
 

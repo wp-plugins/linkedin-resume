@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.80
+Version: 1.90
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -67,7 +67,7 @@ function linkedinresume_get_CV($options) {
 	$page = curl_exec($ch);
 	curl_close($ch);
 	
-	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(<a href="[^"]*" >)?([^<]*)(</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="([^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*(<p class="description">(([^<]|<br>)*)</p>[\r\n\t ]*)?</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(?:<a href="[^"]*" >)?([^<]*)(?:</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(?:dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="(?:[^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*(?:<p class="description">((?:(?:[^<]*)(?:<br>)?)*)</p>[\r\n\t ]*)?</li>%m', $page, $result, PREG_PATTERN_ORDER);
 
 	$infosPerso = array();
 	$jobsArray = array();
@@ -76,14 +76,14 @@ function linkedinresume_get_CV($options) {
 	{
 		$tmpArray = array();
 		$tmpArray['poste'] = trim($result[1][$i]);
-		$tmpArray['entreprise'] = trim($result[3][$i]);
-		$tmpArray['type_entreprise'] = trim($result[5][$i]);
-		$tmpArray['date_debut'] = trim($result[6][$i]);
-		$tmpArray['date_debut_simp'] = trim($result[7][$i]);
-		$tmpArray['date_fin'] = trim($result[9][$i]);
-		$tmpArray['date_fin_simp'] = trim($result[10][$i]);
-		$tmpArray['duree'] = trim($result[12][$i]);
-		$tmpArray['description'] = trim($result[14][$i]);
+		$tmpArray['entreprise'] = trim($result[2][$i]);
+		$tmpArray['type_entreprise'] = trim($result[3][$i]);
+		$tmpArray['date_debut'] = trim($result[4][$i]);
+		$tmpArray['date_debut_simp'] = trim($result[5][$i]);
+		$tmpArray['date_fin'] = trim($result[6][$i]);
+		$tmpArray['date_fin_simp'] = trim($result[7][$i]);
+		$tmpArray['duree'] = trim($result[8][$i]);
+		$tmpArray['description'] = trim($result[9][$i]);
 		$jobsArray[$i] = $tmpArray;
 	}
 	$infosPerso['jobs'] = $jobsArray;
@@ -101,12 +101,12 @@ function linkedinresume_get_CV($options) {
 	$infosPerso['locality'] = trim($result[1][0]);
 	preg_match_all('%<ul class="current">[\r\n\t ]*<li>([^<]*)</li>[\r\n\t ]*</ul>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['curJob'] = trim($result[1][0]);
-	preg_match_all('%<p class="summary">(([^<]|<br>)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<p class="summary">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['summary'] = trim($result[1][0]);
-	preg_match_all('%<p class="skills">(([^<]|<br>)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<p class="skills">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['skills'] = trim($result[1][0]);
 
-	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(<p class="notes">([^<]*)</p>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="(?:[0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(?:<p class="notes">([^<]*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
 	
 	$educArray = array();
 	for($i = 0; $i<count($result[1]); $i++)
@@ -114,19 +114,30 @@ function linkedinresume_get_CV($options) {
 		$tmpArray = array();
 		$tmpArray['ecole'] = trim($result[1][$i]);
 		$tmpArray['degree'] = trim($result[2][$i]);
-		$tmpArray['course'] = trim($result[4][$i]);
-		$tmpArray['date_debut'] = trim($result[6][$i]);
-		$tmpArray['date_debut_simp'] = trim($result[7][$i]);
-		$tmpArray['date_fin'] = trim($result[8][$i]);
-		$tmpArray['date_fin_simp'] = trim($result[9][$i]);
-		$tmpArray['commentaire'] = trim($result[10][$i]);
-		$tmpArray['notes'] = trim($result[12][$i]);
+		$tmpArray['course'] = trim($result[3][$i]);
+		$tmpArray['date_debut'] = trim($result[4][$i]);
+		$tmpArray['date_debut_simp'] = trim($result[5][$i]);
+		$tmpArray['date_fin'] = trim($result[6][$i]);
+		$tmpArray['date_fin_simp'] = trim($result[7][$i]);
+		$tmpArray['commentaire'] = trim($result[8][$i]);
+		$tmpArray['notes'] = trim($result[9][$i]);
+		$tmpArray['activities'] = trim($result[10][$i]);
 		$educArray[$i] = $tmpArray;
 	}
 	$infosPerso['education'] = $educArray;
-
-	preg_match_all('%<ul class="websites">([\r\n\t ]*<li>[\r\n\t ]*<a href="([^"]*)" class="url" [^>]*>([^<]*)</a>[\r\n\t ]*</li>[\r\n\t ]*)+</ul>%i', $page, $result, PREG_PATTERN_ORDER);
-	$infosPerso['sites'] = $result[0][0];
+	
+	if (preg_match('%<dt>Websites</dt>[\r\n\t ]*<dd>[\r\n\t ]*<ul>[\r\n\t ]*(<li>[\r\n\t ]*<a href="(?:[^"]*)" class="url" rel="[a-z]*" target="[a-z_]*">[\r\n\t ]*(?:[A-Za-z ]*)[\r\n\t ]*</a>[\r\n\t ]*</li>[\r\n\t ]*)+</ul>[\r\n\t ]*</dd>%', $page, $regs)) {
+		preg_match_all('%<li>[\r\n\t ]*<a href="([^"]*)" class="url" rel="[a-z]*" target="[a-z_]*">[\r\n\t ]*([A-Za-z ]*)[\r\n\t ]*</a>[\r\n\t ]*</li>[\r\n\t ]*%', $regs[0], $result, PREG_PATTERN_ORDER);
+	
+		$websitesArray = array();
+		for($i = 0; $i<count($result[1]); $i++){
+			$tmpArray = array();
+			$tmpArray['url'] = trim($result[1][$i]);
+			$tmpArray['name'] = trim($result[2][$i]);
+			$websitesArray[$i] = $tmpArray;
+		}
+		$infosPerso['sites'] = $websitesArray;
+	}
 	return $infosPerso;
 }
 
@@ -174,7 +185,7 @@ function linkedinresume_display_CV($atts) {
 		{
 			echo '
 			<div class="cvPart">
-			<h2>'.__('Jobs','linkedinresume').'</h2>';
+			<h2>'.__('Experience','linkedinresume').'</h2>';
 			foreach($myCV['jobs'] as $job)
 			{
 				echo '
@@ -207,9 +218,12 @@ function linkedinresume_display_CV($atts) {
 		if(!empty($myCV['sites']))
 		{
 			echo '<div class="cvPart">
-				<h2>'.__('WebSites','linkedinresume').'</h2>
-				'.$myCV['sites'].'
-			</div>';
+				<h2>'.__('WebSites','linkedinresume').'</h2><ul>';
+			foreach($myCV['sites'] as $site)
+			{
+				echo '<li><a href="'.$site['url'].'" target="_blank">'.$site['name'].'</a></li>';
+			}
+			echo '</ul></div>';
 		}
 	echo '
 	<p>Copyright 2009 LinkedIn Corporation. '.__('All rights reserved','linkedinresume').'</p>
@@ -233,9 +247,12 @@ function linkedinresume_printAdminPage() {
 	<div class="wrap">
 		<h2><?php _e('WordPress LinkedinResume Plugin Option','linkedinresume') ?></h2>
 		<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
-			<h4>Url linkedin</h4>
-			http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'linkedinresume') ?>"/>
-		<div><input type="submit" name="update_linkedinresumeSettings" value="<?php _e('Update Settings', 'linkedinresume') ?>" /></div>
+			<div style="font-style:italic;">Add [linkedinresume] on the page where you want your cv to appear
+			<br/>Note : by default, the language will be your wordpress language but you can specify one by adding the attribute "lang" if you have a multilanguage profile to choose which one you want to display.
+			<br/>Per example : [linkedinresume lang="fr"] will display the french version of your resume</div>
+			<h4>- Url linkedin</h4>
+				<blockquote><div>http://www.linkedin.com/in/<input type="text" name="linkedinId" value="<?php _e(apply_filters('format_to_edit',$devOptions['linkedinId']), 'linkedinresume') ?>"/></div>
+		<div><input type="submit" name="update_linkedinresumeSettings" value="<?php _e('Update Settings', 'linkedinresume') ?>" /></div></blockquote>
 		</form>
 		
 	</div>

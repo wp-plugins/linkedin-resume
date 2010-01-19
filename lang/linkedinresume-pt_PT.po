@@ -10,28 +10,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: linkedinresume.php:153
+#: linkedinresume.php:172
 msgid "Summary : "
 msgstr "Resumo : "
 
-#: linkedinresume.php:159
+#: linkedinresume.php:178
 msgid "Specialties : "
 msgstr "Especialidades : "
 
-#: linkedinresume.php:169
-msgid "Jobs"
+#: linkedinresume.php:188
+msgid "Experience"
 msgstr "Experiência profissional"
 
-#: linkedinresume.php:184
+#: linkedinresume.php:203
 msgid "Education"
 msgstr "Percurso académico"
 
-#: linkedinresume.php:199
+#: linkedinresume.php:221
 msgid "WebSites"
 msgstr "Páginas web"
 
-#: linkedinresume.php:204
-#: linkedinresume.php:205
+#: linkedinresume.php:229
+#: linkedinresume.php:230
 msgid "All rights reserved"
 msgstr "	Todos os direitos reservados"
 

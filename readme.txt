@@ -3,7 +3,7 @@ Contributors: Arnaud Lejosne
 Donate link: http://creations.lochrider.com
 Tags: linkedIn, resume, CV, curriculum, vitae
 Requires at least: 2.0
-Tested up to: 2.8
+Tested up to: 2.9.1
 Stable tag: trunk
 
 Display your CV (also called Resume or Curriculum vitae) on your blog from your linkedIn public page informations.
@@ -17,7 +17,7 @@ Display your CV (also called Resume or Curriculum vitae) on your blog from your 
 1. Download It
 2. Install it
 3. Add [linkedinresume] on the page where you want your cv to appear
-Note : by default, the language will be your wordpress language but you can specify one by adding the attribute "lang" if you have a multilanguage profile to choose which language you want to display.
+Note : by default, the language will be your wordpress language but you can specify one by adding the attribute "lang" if you have a multilanguage profile to choose which one you want to display.
 Per example : [linkedinresume lang="fr"] will display the french version of your resume
 4. Change the url on the setting page to your linkedin public page url
 5. Enjoy ;)
@@ -40,6 +40,10 @@ AddHandler x-mapp-php5 .php
 2. A preview of the admin page
 
 == Changelog ==
+
+= 1.9 =
+* Regexp compatibility bugs fixed
+* Optimisation of some regexps
 
 = 1.8 =
 * Additional notes about schools added
