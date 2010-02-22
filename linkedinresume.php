@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.90
+Version: 1.91
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -29,7 +29,7 @@ Author URI: http://creations.lochrider.com
 
 
 define('LINKEDINRESUMEPATH',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
-define('Version',"1.1");
+define('Version',"1.91");
 $plugin_dir = basename(dirname(__FILE__));
 load_plugin_textdomain( 'linkedinresume', 'wp-content/plugins/'.$plugin_dir.'/lang', $plugin_dir.'/lang' ); 
 $adminOptionsName = "linedinRedumeAdminOption";
@@ -106,7 +106,7 @@ function linkedinresume_get_CV($options) {
 	preg_match_all('%<p class="skills">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['skills'] = trim($result[1][0]);
 
-	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="(?:[0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(?:<p class="notes">([^<]*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="(?:[0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(?:<p class="notes">((?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
 	
 	$educArray = array();
 	for($i = 0; $i<count($result[1]); $i++)
