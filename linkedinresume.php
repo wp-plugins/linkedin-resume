@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.91
+Version: 1.92
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -106,7 +106,7 @@ function linkedinresume_get_CV($options) {
 	preg_match_all('%<p class="skills">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['skills'] = trim($result[1][0]);
 
-	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*<abbr class="dtstart" title="(?:[0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([0-9\-]+)">([^<]*)</abbr>([^<]*)</p>[\r\n\t ]*(?:<p class="notes">((?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">[\r\n\t ]*([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(?:<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*(?:,[\r\n\t ]*<abbr class="dtstart" title="([^"]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([^"]+)">([^<]*)</abbr>)?[\r\n\t ]*</p>[\r\n\t ]*(?:<p class="notes">((?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
 	
 	$educArray = array();
 	for($i = 0; $i<count($result[1]); $i++)
@@ -205,10 +205,11 @@ function linkedinresume_display_CV($atts) {
 			{
 				echo '<h3>'.$educ['ecole'].'</h3>';
 				if($educ['degree']||$educ['course'])
-				{
 					echo '<p>'.$educ['degree'].' '.$educ['course'].'</p>';
-				}
-				echo '<p>'.$educ['date_debut_simp'].' - '.$educ['date_fin_simp'].' '.$educ['commentaire'].'</p>';
+				echo '<p>';
+				if($educ['date_debut_simp'] && $educ['date_fin_simp'])
+					echo $educ['date_debut_simp'].' - '.$educ['date_fin_simp'];
+				echo $educ['commentaire'].'</p>';
 				if(!empty($educ['notes'])){
 					echo '<p>'.$educ['notes'].'</p>';
 				}
