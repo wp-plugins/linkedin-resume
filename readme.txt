@@ -4,7 +4,7 @@ Donate link: http://creations.lochrider.com
 Tags: linkedIn, resume, CV, curriculum, vitae
 Requires at least: 2.0
 Tested up to: 2.9.2
-Stable tag: 1.92
+Stable tag: 1.93
 
 Display your CV (also called Resume or Curriculum vitae) on your blog from your linkedIn public page informations.
 
@@ -40,6 +40,9 @@ AddHandler x-mapp-php5 .php
 2. A preview of the admin page
 
 == Changelog ==
+
+= 1.91, 1.92 & 1.93 =
+A lot of enhancements on the education regexp
 
 = 1.9 =
 * Regexp compatibility bugs fixed
