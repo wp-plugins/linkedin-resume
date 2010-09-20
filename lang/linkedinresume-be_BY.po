@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Linkedin Resume\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-10-07 23:29-0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: FatCow <zhr@tut.by>\n"
+"Language-Team: Marcis G. <by.marcis@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Belarusian\n"
+"X-Poedit-Country: BELARUS\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: linkedinresume.php:172
+msgid "Summary : "
+msgstr "Выснова : "
+
+#: linkedinresume.php:178
+msgid "Specialties : "
+msgstr "Адмысловасці : "
+
+#: linkedinresume.php:188
+msgid "Experience"
+msgstr "Досвед"
+
+#: linkedinresume.php:203
+msgid "Education"
+msgstr "Адукацыя"
+
+#: linkedinresume.php:221
+msgid "WebSites"
+msgstr "Сайты"
+
+#: linkedinresume.php:229
+#: linkedinresume.php:230
+msgid "All rights reserved"
+msgstr "Усе правы абаронены"
+
