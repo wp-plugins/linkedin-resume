@@ -3,7 +3,7 @@
 Plugin Name: LinkedIn Resume
 Plugin URI: http://creations.lochrider.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.93
+Version: 1.95
 Author: Arnaud Lejosne
 Author URI: http://creations.lochrider.com
 */
@@ -29,10 +29,10 @@ Author URI: http://creations.lochrider.com
 
 
 define('LINKEDINRESUMEPATH',WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
-define('Version',"1.91");
+define('Version',"1.95");
 $plugin_dir = basename(dirname(__FILE__));
 load_plugin_textdomain( 'linkedinresume', 'wp-content/plugins/'.$plugin_dir.'/lang', $plugin_dir.'/lang' ); 
-$adminOptionsName = "linedinRedumeAdminOption";
+define('LinedInResumeadminOptionsName', 'linedinResumeAdminOption');
 add_shortcode('linkedinresume', 'linkedinresume_active_shortcode');
 function linkedinresume_active_shortcode($atts) {
 	return linkedinresume_display_CV($atts);
@@ -40,8 +40,8 @@ function linkedinresume_active_shortcode($atts) {
 
 //Returns an array of admin options
 function linkedinresume_getAdminOptions() {
-	$devLinkedinResumeAdminOptions = array('linkedinId' => 'lejosnea');
-	$devOptions = get_option($adminOptionsName);
+	//$devLinkedinResumeAdminOptions = array('linkedinId' => '');
+	$devOptions = get_option(LinedInResumeadminOptionsName);
 	if (!empty($devOptions)) {
 		foreach ($devOptions as $key => $option)
 			$devLinkedinResumeAdminOptions[$key] = $option;
@@ -237,13 +237,15 @@ function linkedinresume_display_CV($atts) {
 function linkedinresume_printAdminPage() {
 	wp_register_style('admin_linkedinresume', LinkedinResumePATH.'css/admin.css', false, Version, 'all');
 	wp_print_styles('admin_linkedinresume');
+	
 	if (isset($_POST['update_linkedinresumeSettings'])) {
 		if (isset($_POST['linkedinId'])) {
 			$devOptions['linkedinId'] = $_POST['linkedinId'];
 		}
-		update_option($adminOptionsName, $devOptions);
+		update_option(LinedInResumeadminOptionsName, $devOptions);
 	}
 	$devOptions = linkedinresume_getAdminOptions();
+
 	?>
 	<div class="wrap">
 		<h2><?php _e('WordPress LinkedinResume Plugin Option','linkedinresume') ?></h2>

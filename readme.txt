@@ -3,8 +3,8 @@ Contributors: Arnaud Lejosne
 Donate link: http://creations.lochrider.com
 Tags: linkedIn, resume, CV, curriculum, vitae
 Requires at least: 2.0
-Tested up to: 2.9.3
-Stable tag: 1.94
+Tested up to: 3.0.1
+Stable tag: 1.95
 
 Display your CV (also called Resume or Curriculum vitae) on your blog from your linkedIn public page informations.
 
