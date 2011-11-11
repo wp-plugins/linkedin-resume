@@ -1,0 +1,6 @@
+h2{margin:15px 0px;}
+h3, h4{margin:10px 0px;}
+div.cvPart{border-bottom:3px solid #DDDDDD; float:left; padding-top:10px; width:100%;}
+div.cvHeaderInfos{width:300px; float:left;}
+div.cvHeaderInfos h2, div.cvHeaderInfos h3, div.cvHeaderInfos h4{margin:10px 0px;}
+div.cvImage{width:100px; float:right;}
