@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: LinkedIn Resume
-Plugin URI: http://creations.lochrider.com
+Plugin URI: http://creations.arnaud-lejosne.com
 Description: Display your CV on your blog from your linkedIn public page informations.
-Version: 1.95
+Version: 2.00
 Author: Arnaud Lejosne
-Author URI: http://creations.lochrider.com
+Author URI: http://creations.arnaud-lejosne.com
 */
 
 
 /*  
-	Copyright 2009  Arnaud Lejosne  (email : contact@arnaudlejosne.com)
+	Copyright 2009  Arnaud Lejosne  (email : contact@arnaud-lejosne.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ function linkedinresume_get_CV($options) {
 	$page = curl_exec($ch);
 	curl_close($ch);
 	
-	preg_match_all('%<li class="experience vevent vcard">[\r\n\t ]*<a href="#name" class="include">[\r\n\t ]*</a>[\r\n\t ]*<h3 class="title">([^<]*)</h3>[\r\n\t ]*<h4 class="org summary">(?:<a href="[^"]*" >)?([^<]*)(?:</a>)?</h4>[\r\n\t ]*<p class="organization-details">([^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="(?:dtstamp|dtend)" title="([0-9\-]+)">([^<]*)</abbr>[\r\n\t ]*<abbr class="duration" title="(?:[^<]*)">([^<]*)</abbr>[\r\n\t ]*</p>[\r\n\t ]*(?:<p class="description">((?:(?:[^<]*)(?:<br>)?)*)</p>[\r\n\t ]*)?</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<div>[\r\n\t ]*<div class="position[^"]+" style="display:block">[\r\n\t ]*<a class="include" href="#name">[\r\n\t ]*</a>[\r\n\t ]*<div class="postitle">[\r\n\t ]*<h3 class="[^"]+">[\r\n\t ]*<span class="title">(?<title>[^<]*)</span>[\r\n\t ]*</h3>[\r\n\t ]*<h4>[\r\n\t ]*<strong>[\r\n\t ]*(?:<a class="company-profile-public" href="[^"]*">[\r\n\t ]*)?<span class="org summary">(?<summary>[^<]*)</span>(?:[\r\n\t ]*</a>)?[\r\n\t ]*(?:</strong>[\r\n\t ]*)+</h4>[\r\n\t ]*</div>[\r\n\t ]*<p class="orgstats organization-details[^"]+">(?<organization_details>[^<]*)</p>[\r\n\t ]*<p class="period">[\r\n\t ]*<abbr class="dtstart" title="(?<date_debut>[0-9\-]+)">(?<date_debut_simp>[^<]*)</abbr>[\r\n\t ]*&#8211;[\r\n\t ]*<abbr class="(?:dtstamp|dtend)" title="(?<date_fin>[0-9\-]+)">(?<date_fin_simp>[^<]*)</abbr>[\r\n\t ]*<span class="duration">[\r\n\t ]*<span class="value-title" title="(?:[^<]*)">(?<duree>[^<]*)</span>(?:[^<]*)</span>[\r\n\t ]*</p>[\r\n\t ]*(?:<p class=" description[^"]+">(?<description>(?:(?:[^<]*)(?:<br>)?)*)</p>[\r\n\t ]*)?</div>[\r\n\t ]*</div>%m', $page, $result, PREG_PATTERN_ORDER);
 
 	$infosPerso = array();
 	$jobsArray = array();
@@ -75,53 +75,54 @@ function linkedinresume_get_CV($options) {
 	for($i = 0; $i<count($result[1]); $i++)
 	{
 		$tmpArray = array();
-		$tmpArray['poste'] = trim($result[1][$i]);
-		$tmpArray['entreprise'] = trim($result[2][$i]);
-		$tmpArray['type_entreprise'] = trim($result[3][$i]);
-		$tmpArray['date_debut'] = trim($result[4][$i]);
-		$tmpArray['date_debut_simp'] = trim($result[5][$i]);
-		$tmpArray['date_fin'] = trim($result[6][$i]);
-		$tmpArray['date_fin_simp'] = trim($result[7][$i]);
-		$tmpArray['duree'] = trim($result[8][$i]);
-		$tmpArray['description'] = trim($result[9][$i]);
+		$tmpArray['poste'] = trim($result['title'][$i]);
+		$tmpArray['entreprise'] = trim($result['summary'][$i]);
+		$tmpArray['type_entreprise'] = trim($result['organization_details'][$i]);
+		$tmpArray['date_debut'] = trim($result['date_debut'][$i]);
+		$tmpArray['date_debut_simp'] = trim($result['date_debut_simp'][$i]);
+		$tmpArray['date_fin'] = trim($result['date_fin'][$i]);
+		$tmpArray['date_fin_simp'] = trim($result['date_fin_simp'][$i]);
+		$tmpArray['duree'] = trim($result['duree'][$i]);
+		$tmpArray['description'] = trim($result['description'][$i]);
 		$jobsArray[$i] = $tmpArray;
 	}
 	$infosPerso['jobs'] = $jobsArray;
 	
-	preg_match_all('%<div class="image"><img src="([^"]+)" class="photo" alt="([^"]+)" /></div>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<div class="image[^"]*" style="display:block" id="profile-picture">[ \n\r\t]*<img src="([^"]+)" class="photo" width="[^"]+" height="[^"]+" alt="([^"]+)">[ \n\r\t]*</div>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['image_url'] = trim($result[1][0]);
 	$infosPerso['image_alt'] = trim($result[1][1]);
 	preg_match_all('%<span class="given-name">([^<]*)</span>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['givenName'] = trim($result[1][0]);
 	preg_match_all('%<span class="family-name">([^<]*)</span>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['name'] = trim($result[1][0]);
-	preg_match_all('%<p class="headline title">([^<]*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<p class="title" style="display:block">([^<]*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['title'] = trim($result[1][0]);
-	preg_match_all('%<p class="locality">([^<]*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<span class="locality">([^<]*)</span>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['locality'] = trim($result[1][0]);
-	preg_match_all('%<ul class="current">[\r\n\t ]*<li>([^<]*)</li>[\r\n\t ]*</ul>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<ul class="current">[\r\n\t ]*<li>([^<]*)(?:[\r\n\t ]*<span class="at">at </span>[\r\n\t ]*[^<]*)?</li>[\r\n\t ]*</ul>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['curJob'] = trim($result[1][0]);
-	preg_match_all('%<p class="summary">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<p class=" description summary">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['summary'] = trim($result[1][0]);
-	preg_match_all('%<p class="skills">((?:(?:[^<]*)(?:<br>)?)*)</p>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<div id="profile-specialties" style="display:block">[\r\n\t ]*<h3>[^<]*</h3>[\r\n\t ]*<p class="null">((?:(?:[^<]*)(?:<br>)?)*)</p>[\r\n\t ]*</div>%m', $page, $result, PREG_PATTERN_ORDER);
 	$infosPerso['skills'] = trim($result[1][0]);
 
-	preg_match_all('%<li class="education vevent vcard">[\r\n\t ]*<h3 class="summary fn org">[\r\n\t ]*([^<]*)</h3>[\r\n\t ]*<div class="description">[\r\n\t ]*<p>[\r\n\t ]*(?:<span class="degree">([^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(?:<span class="major">[\r\n\t ]*,?([^<]*)</span>)?[\r\n\t ]*(?:,[\r\n\t ]*<abbr class="dtstart" title="([^"]+)">([^<]*)</abbr>[\r\n\t ]*&mdash;[\r\n\t ]*<abbr class="dtend" title="([^"]+)">([^<]*)</abbr> (\(expected\))?)?[\r\n\t ]*</p>[\r\n\t ]*(?:<p class="notes">((?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">((?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?</div>[\r\n\t ]*</li>%m', $page, $result, PREG_PATTERN_ORDER);
+	preg_match_all('%<div class="position[^"]+" id="[^"]*">[\r\n\t ]*<h3 class="summary fn org">[\r\n\t ]*(?<summary>[^<]*)</h3>[\r\n\t ]*<h4 class="details-education">[\r\n\t ]*(?:<span class="degree">(?<degree>[^<]*)</span>)?[\r\n\t ]*,?[\r\n\t ]*(?:<span class="major">[\r\n\t ]*,?(?<major>[^<]*)</span>)?[\r\n\t ]*</h4>[\r\n\t ]*<p class="period">(?:[\r\n\t ]*<abbr class="dtstart" title="(?<date_debut>[^"]+)">(?<date_debut_simp>[^<]*)</abbr>[\r\n\t ]*&#8211;[\r\n\t ]*<abbr class="dtend" title="(?<date_fin>[^"]+)">(?<date_fin_simp>[^<]*)</abbr>[\r\n\t ]*(?<commentaire>\((?:[^)]*)\))?)?[\r\n\t ]*</p>[\r\n\t ]*(?:<p class="notes">(?<notes>(?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*)?(?:<dl class="activities-societies">(?<activities>(?:(?:[^<]*)(?:<dt)?(?:</dt)?(?:<dd)?(?:</dd)?)*)</dl>[\r\n\t ]*)?<p class=" desc details\-education">(?<details>(?:(?:[^<]*)(?:<br)?)*)</p>[\r\n\t ]*</div>%m', $page, $result, PREG_PATTERN_ORDER);
 	
 	$educArray = array();
-	for($i = 0; $i<count($result[1]); $i++)
+	for($i = 0; $i<count($result['summary']); $i++)
 	{
 		$tmpArray = array();
-		$tmpArray['ecole'] = trim($result[1][$i]);
-		$tmpArray['degree'] = trim($result[2][$i]);
-		$tmpArray['course'] = trim($result[3][$i]);
-		$tmpArray['date_debut'] = trim($result[4][$i]);
-		$tmpArray['date_debut_simp'] = trim($result[5][$i]);
-		$tmpArray['date_fin'] = trim($result[6][$i]);
-		$tmpArray['date_fin_simp'] = trim($result[7][$i]);
-		$tmpArray['commentaire'] = trim($result[8][$i]);
-		$tmpArray['notes'] = trim($result[9][$i]);
-		$tmpArray['activities'] = trim($result[10][$i]);
+		$tmpArray['ecole'] = trim($result['summary'][$i]);
+		$tmpArray['degree'] = trim($result['degree'][$i]);
+		$tmpArray['course'] = trim($result['major'][$i]);
+		$tmpArray['date_debut'] = trim($result['date_debut'][$i]);
+		$tmpArray['date_debut_simp'] = trim($result['date_debut_simp'][$i]);
+		$tmpArray['date_fin'] = trim($result['date_fin'][$i]);
+		$tmpArray['date_fin_simp'] = trim($result['date_fin_simp'][$i]);
+		$tmpArray['commentaire'] = trim($result['commentaire'][$i]);
+		$tmpArray['notes'] = trim($result['notes'][$i]);
+		$tmpArray['activities'] = trim($result['activities'][$i]);
+		$tmpArray['details'] = trim($result['details'][$i]);
 		$educArray[$i] = $tmpArray;
 	}
 	$infosPerso['education'] = $educArray;
@@ -204,15 +205,16 @@ function linkedinresume_display_CV($atts) {
 			foreach($myCV['education'] as $educ)
 			{
 				echo '<h3>'.$educ['ecole'].'</h3>';
-				if($educ['degree']||$educ['course'])
+				if($educ['degree'] || $educ['course'])
 					echo '<p>'.$educ['degree'].' '.$educ['course'].'</p>';
 				echo '<p>';
 				if($educ['date_debut_simp'] && $educ['date_fin_simp'])
 					echo $educ['date_debut_simp'].' - '.$educ['date_fin_simp'];
 				echo $educ['commentaire'].'</p>';
-				if(!empty($educ['notes'])){
+				if(!empty($educ['notes']))
 					echo '<p>'.$educ['notes'].'</p>';
-				}
+				if(!empty($educ['details']))
+					echo '<p>'.$educ['details'].'</p>';
 			}
 			echo '</div>';
 		}
@@ -227,7 +229,7 @@ function linkedinresume_display_CV($atts) {
 			echo '</ul></div>';
 		}
 	echo '
-	<p>Copyright 2009 LinkedIn Corporation. '.__('All rights reserved','linkedinresume').'</p>
+	<p>Copyright '.date('Y').' LinkedIn Corporation. '.__('All rights reserved','linkedinresume').'</p>
 	<!-- '.__('All rights reserved','linkedinresume').' Arnaud Lejosne -->
 	';
 }
